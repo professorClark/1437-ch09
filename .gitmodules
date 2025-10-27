@@ -1,0 +1,3 @@
+[submodule "student-materials"]
+	path = student-materials
+	url = https://github.com/collin-cosc-1437-fall-2025/ch09-materials.git
