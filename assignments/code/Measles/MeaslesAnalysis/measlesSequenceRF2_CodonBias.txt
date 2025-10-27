@@ -1,0 +1,108 @@
+*********** Complete Codon Bias Report **********
+
+The codons for Alanine(A) are: GCT GCC GCA GCG 
+GCT:  70   29.79%
+GCC:  59   25.11%
+GCA:  84   35.74%
+GCG:  22    9.36%
+
+The codons for Arginine(R) are: CGT CGC CGA CGG AGA AGG 
+CGT:  24    5.33%
+CGC:  31    6.89%
+CGA:  65   14.44%
+CGG:  56   12.44%
+AGA: 143   31.78%
+AGG: 131   29.11%
+
+The codons for Asparagine(N) are: AAT AAC 
+AAT: 108   57.14%
+AAC:  81   42.86%
+
+The codons for AsparticAcid(D) are: GAT GAC 
+GAT: 108   58.06%
+GAC:  78   41.94%
+
+The codons for Cysteine(C) are: TGT TGC 
+TGT:  89   53.61%
+TGC:  77   46.39%
+
+The codons for Glutamine(Q) are: CAA CAG 
+CAA: 166   54.61%
+CAG: 138   45.39%
+
+The codons for GlutamicAcid(E) are: GAA GAG 
+GAA:  92   48.17%
+GAG:  99   51.83%
+
+The codons for Glycine(G) are: GGT GGC GGA GGG 
+GGT:  75   22.19%
+GGC:  74   21.89%
+GGA: 117   34.62%
+GGG:  72   21.30%
+
+The codons for Histidine(H) are: CAT CAC 
+CAT: 114   54.55%
+CAC:  95   45.45%
+
+The codons for Isoleucine(I) are: ATT ATC ATA 
+ATT:  89   37.39%
+ATC:  99   41.60%
+ATA:  50   21.01%
+
+The codons for Leucine(L) are: TTA TTG CTT CTC CTA CTG 
+TTA:  63   15.95%
+TTG:  72   18.23%
+CTT:  65   16.46%
+CTC:  83   21.01%
+CTA:  53   13.42%
+CTG:  59   14.94%
+
+The codons for Lysine(K) are: AAA AAG 
+AAA: 113   50.90%
+AAG: 109   49.10%
+
+The codons for Methionine(M) are: ATG 
+ATG:  77  100.00%
+
+The codons for Phenylalanine(F) are: TTT TTC 
+TTT:  53   44.54%
+TTC:  66   55.46%
+
+The codons for Proline(P) are: CCT CCC CCA CCG 
+CCT: 104   26.07%
+CCC:  93   23.31%
+CCA: 141   35.34%
+CCG:  61   15.29%
+
+The codons for Serine(S) are: TCT TCC TCA TCG AGT AGC 
+TCT:  88   17.78%
+TCC:  90   18.18%
+TCA:  99   20.00%
+TCG:  39    7.88%
+AGT:  96   19.39%
+AGC:  83   16.77%
+
+The codons for Threonine(T) are: ACT ACC ACA ACG 
+ACT:  82   29.18%
+ACC:  84   29.89%
+ACA:  89   31.67%
+ACG:  26    9.25%
+
+The codons for Tryptophan(W) are: TGG 
+TGG:  80  100.00%
+
+The codons for Tyrosine(Y) are: TAT TAC 
+TAT: 107   64.85%
+TAC:  58   35.15%
+
+The codons for Valine(V) are: GTT GTC GTA GTG 
+GTT:  82   35.04%
+GTC:  59   25.21%
+GTA:  35   14.96%
+GTG:  58   24.79%
+
+The codons for Stop(*) are: TAG TGA TAA 
+TAG:  78   24.07%
+TGA: 174   53.70%
+TAA:  72   22.22%
+

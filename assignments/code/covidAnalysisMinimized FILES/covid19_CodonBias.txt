@@ -1,0 +1,124 @@
+Prof Clark
+***** COVID-19 Codon Bias Analysis *****
+
+Alanine(A): [GCT, GCC, GCA, GCG]
+GCT:  87   33.21%
+GCC:  50   19.08%
+GCA:  96   36.64%
+GCG:  29   11.07%
+Overall Genome Encoding:   2.64%
+
+Arginine(R): [CGT, CGC, CGA, CGG, AGA, AGG]
+CGT:  52   11.28%
+CGC:  29    6.29%
+CGA:  35    7.59%
+CGG:  23    4.99%
+AGA: 197   42.73%
+AGG: 125   27.11%
+Overall Genome Encoding:   4.65%
+
+Asparagine(N): [AAT, AAC]
+AAT: 188   47.12%
+AAC: 211   52.88%
+Overall Genome Encoding:   4.03%
+
+Aspartic Acid(D): [GAT, GAC]
+GAT:  56   42.75%
+GAC:  75   57.25%
+Overall Genome Encoding:   1.32%
+
+Cysteine(C): [TGT, TGC]
+TGT: 280   59.70%
+TGC: 189   40.30%
+Overall Genome Encoding:   4.73%
+
+Glutamine(Q): [CAA, CAG]
+CAA: 218   54.23%
+CAG: 184   45.77%
+Overall Genome Encoding:   4.06%
+
+Glutamic Acid(E): [GAA, GAG]
+GAA:  97   51.32%
+GAG:  92   48.68%
+Overall Genome Encoding:   1.91%
+
+Glycine(G): [GGT, GGC, GGA, GGG]
+GGT:  62   26.72%
+GGC:  48   20.69%
+GGA:  70   30.17%
+GGG:  52   22.41%
+Overall Genome Encoding:   2.34%
+
+Histidine(H): [CAT, CAC]
+CAT: 177   48.49%
+CAC: 188   51.51%
+Overall Genome Encoding:   3.68%
+
+Isoleucine(I): [ATT, ATC, ATA]
+ATT: 287   49.74%
+ATC: 118   20.45%
+ATA: 172   29.81%
+Overall Genome Encoding:   5.82%
+
+Leucine(L): [TTA, TTG, CTT, CTC, CTA, CTG]
+TTA: 362   22.11%
+TTG: 362   22.11%
+CTT: 271   16.55%
+CTC: 114    6.96%
+CTA: 271   16.55%
+CTG: 257   15.70%
+Overall Genome Encoding:  16.52%
+
+Lysine(K): [AAA, AAG]
+AAA: 272   52.31%
+AAG: 248   47.69%
+Overall Genome Encoding:   5.25%
+
+Methionine(M): [ATG]
+ATG: 300  100.00%
+Overall Genome Encoding:   3.03%
+
+Phenylalanine(F): [TTT, TTC]
+TTT: 295   63.99%
+TTC: 166   36.01%
+Overall Genome Encoding:   4.65%
+
+Proline(P): [CCT, CCC, CCA, CCG]
+CCT:  83   33.74%
+CCC:  41   16.67%
+CCA:  96   39.02%
+CCG:  26   10.57%
+Overall Genome Encoding:   2.48%
+
+Serine(S): [TCT, TCC, TCA, TCG, AGT, AGC]
+TCT: 136   19.35%
+TCC:  77   10.95%
+TCA: 185   26.32%
+TCG:  40    5.69%
+AGT: 158   22.48%
+AGC: 107   15.22%
+Overall Genome Encoding:   7.10%
+
+Threonine(T): [ACT, ACC, ACA, ACG]
+ACT: 163   26.33%
+ACC: 120   19.39%
+ACA: 274   44.26%
+ACG:  62   10.02%
+Overall Genome Encoding:   6.25%
+
+Tryptophan(W): [TGG]
+TGG: 192  100.00%
+Overall Genome Encoding:   1.94%
+
+Tyrosine(Y): [TAT, TAC]
+TAT: 133   40.67%
+TAC: 194   59.33%
+Overall Genome Encoding:   3.30%
+
+Valine(V): [GTT, GTC, GTA, GTG]
+GTT: 152   22.65%
+GTC:  70   10.43%
+GTA: 177   26.38%
+GTG: 272   40.54%
+Overall Genome Encoding:   6.77%
+

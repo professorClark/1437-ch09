@@ -1,0 +1,91 @@
+1. UML Diagram is not required for the assignment. I will update it to remove that. You obviously still need to design, but you won't have to document it for me for submission.
+
+2. Project Plan help (if needed).
+
+*** Notes *** 
+- Be sure to test as you go along! Just try printing what you have to the screen or something 
+  to make sure that your section actually has the data you are expecting. Do not wait to try to run it until all of the pieces are there!
+- I'd strongly suggest writing this all for measles first, since you have all of my files and 
+  example output. Then when that works, just change the filenames to be the covid ones.
+*************
+
+Here are tasks that need to be done that have dependencies, and tasks that can be done concurrently.
+
+----- Concurrent 1 -----
+
+1.A The amino acid arraylist has to be built first from the aminoAcidTable.csv file. No one can get any real work done without that. 
+	- you'll need the AminoAcid class built. That class needs to contain the name of the acid, the one letter code it goes by, and a list of the codons that make it up. Store those few codons however you want, but remember that different amino acids have different numbers of codons. So you can't just make codon1, codon2, etc in it.
+	- Read in the .csv file and split it. Every line in the file is one amino acid, so make an instance of an AminoAcid class, fill it with the data, and then add it to your arraylist of amino acids.
+
+1.B Work on Reading Frame 1 first. Split that RF1.csv file into an array of codons.
+
+----- End Concurrent 1 -------
+
+With those necessities out of the way (items everyone will need), you can start working on the bigger functionality.
+
+------ Concurrent 2 ------
+
+2.A Someone do the "ask the user for an amino acid" portion. 
+	- Write a lookup method. Accept a letter, find it in the amino acid array list from concurrent1, and then display the name, letter, and its codons from that line to the screen.
+
+2.B Someone do the "print all amino acids" report. 
+	- Open a codon bias RF1 file to write to, loop through every amino acid in your amino acid arraylist, and print the name, letter, and its codons to the file.
+
+***(Note that at the moment, neither 2.A or 2.B will display the codon percentages for those written codons. That's fine. We'll come back to that later.) ***
+
+2.C Someone write code to loop through the array of codons from 1.B and find the ATGs.
+	- Keep count of the codons you went through to find it. You'll need that later. 
+	- Once you find an ATG, your gene is "on". Start keeping track of the amino acids (each codon codes for one of the amino acids) until you reach a stop codon (TAA, TGA, TAG). Now your gene is "off". Keep track of what the codon number was of that stop. 
+		- When you find an ATG, (and every codon after that until the stop), look in the amino acid arraylist from 1.A to find which one letter code goes with that codon. I'd concatenate all of them into a single string and then try to just print that out.
+
+------- End Concurrent 2 --------
+
+
+-------- Concurrent 3 ---------
+
+3.A Someone write the code to count for codons for a specific amino acid. This would probably 
+	be a method. 
+	- Accept an amino acid letter and grab all of its codons from the arraylist from 1.A. Then, loop through the entire codon array from 1.B. Keep track of all of the counts for each codon in that amino acid. (This will take some thought)
+		- For example, if you send in a 'N', then the codons for it are AAT and AAC. Start at the beginning of the codon array. Every time you find an AAT, add one to your count for that, and everytime you find an AAC, add one to your count for that.
+	- It would be helpful if this works for both printing to the screen and writing to the file, since both 2.A and 2.B would find that useful. 
+		- If 2.A uses the method, it should print this information to the screen. 
+		- if 2.B uses the method, it should print that information to the file.
+
+3.B Someone write the code to create the Gene class. That class needs to contain: 
+	- a string of acids that will make up the gene
+	- where the first nucleotide of the ATG is located. (calculated from the codon count in 2.C)
+	- where the last nucleotide of the Stop codon is located. (calculated from the codon count in 2.C)
+	- the length of the gene (how many amino acids are in the gene. It's the length of your string)
+
+---------- End Concurrent 3 ------------
+
+---------- Concurrent 4 --------------
+
+4.A Whoever wrote 2.A, use the method from 3.A to finish the complete output. Your new display 
+	will contain the name of the amino acid they chose, the letter, and all of the codon counts.
+
+4.B Whoever wrote 2.B, use the method from 3.A to finish your complete output. You'll want to 
+	call the 3.A method repeatedly with each amino acid in your aminoacid arraylist from 1.A.
+
+4.C Whoever wrote 2.C, create an arrayList of Genes. For every gene you found in 
+	2.C, create a new Gene and add it to the arrayList. Note, only genes greater than 50 amino acids should be include in the arrayList. That's the ORF value noted in the assignment document.
+
+---------- End Concurrent 4 -------------
+
+--------- Concurrent 5 ------------
+
+5.A Whoever wrote 2.A, make sure that there's a loop that lets the user keep entering amino 
+	acids. You'd probably want a small menu for this where they have the choice of entering a single amino acid (prints data to the screen), or printing a report of all amino acids (prints data to the file). Don't let them leave the codon bias section until they've printed the full report.
+
+5.B Whoever wrote 4.C, loop through every gene in your arraylist, printing out all of the 	
+	information for each gene to a file.
+
+---------- End Concurrent 5 --------------
+
+---------- Remaining Items ---------------
+
+RI.A You've done all of this for Reading Frame 1. Now be sure that you can do this for any Reading Frame. That's not hard - all of the code is the same except which file to work on. Give the user the option of which reading frame to work on, open the correct .csv file for that reading frame to use.
+
+
+I hope this helps! It's not every detail of course, but it might help you break out the work to be done.
+
