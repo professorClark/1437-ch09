@@ -1,4 +1,4 @@
-***** Measles Codon Bias Analysis *****
+***** COVID-19 Codon Bias Analysis *****
 
 Alanine(A): [GCT, GCC, GCA, GCG]
 GCT: 169   45.31%
