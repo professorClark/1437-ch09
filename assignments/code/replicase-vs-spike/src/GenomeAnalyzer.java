@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.*;
+import java.util.*;  //TODO fix this
 
 public class GenomeAnalyzer {
     ArrayList<CodonEntry> codonList = new ArrayList<CodonEntry>();
@@ -32,36 +32,27 @@ public class GenomeAnalyzer {
     }
 
     public void parseFastaToCounts(String fastaPath, boolean isFileA) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(fastaPath));
-        String line;
         StringBuilder seqBuilder = new StringBuilder();
-        while ((line = br.readLine()) != null) {
-            if (line.startsWith(">")) continue; // skip header lines
-            seqBuilder.append(line.trim());
-        }
-        br.close();
-
-        // GC counting: count per character excluding Ns
-        long gc = 0;
-        long total = 0;
-        for (char c : seq.toCharArray()) {
-            if (c == 'A' || c == 'C' || c == 'T' || c == 'G') {
-                total++;
-                if (c == 'G' || c == 'C') gc++;
+        try (BufferedReader br = new BufferedReader(new FileReader(fastaPath))) {
+            // Read and discard the first line (FASTA header)
+            br.readLine(); // discard header line
+            // Now read the remaining lines (sequence lines) and append
+            String line;
+            while ((line = br.readLine()) != null) {
+                seqBuilder.append(line.trim());
             }
         }
-        if (isFileA) {
-            gcA = gc;
-            totalBasesA = total;
-        } else {
-            gcB = gc;
-            totalBasesB = total;
-        }
+
+        // Convert the accumulated sequence builder into an uppercase string for further processing
+        String seq = seqBuilder.toString().toUpperCase();
+
+        // GC content calculation removed
 
         // Process codons in blocks of 3
         int invalidCounter = 0;
         for (int i = 0; i + 3 <= seq.length(); i += 3) {
             String codon = seq.substring(i, i + 3);
+            // skip codons containing ambiguous base 'N'
             if (codon.indexOf('N') >= 0) {
                 invalidCounter++;
                 continue;
@@ -69,9 +60,9 @@ public class GenomeAnalyzer {
             // find matching CodonEntry
             boolean found = false;
             for (CodonEntry ce : codonList) {
-                if (ce.sequence.equals(codon)) {
-                    if (isFileA) ce.countA++;
-                    else ce.countB++;
+                if (ce.getCodon().equals(codon)) {
+                    if (isFileA) ce.incrementCountA();
+                    else ce.incrementCountB();
                     found = true;
                     break;
                 }
@@ -81,9 +72,10 @@ public class GenomeAnalyzer {
                 invalidCounter++;
             }
         }
-
-        if (isFileA) invalidA = invalidCounter;
-        else invalidB = invalidCounter;
+        // report skipped/invalid codons
+        if (invalidCounter > 0) {
+            System.out.printf("Skipped %d invalid/unknown codons while parsing %s\n", invalidCounter, fastaPath);
+        }
     }
 
     public void computeRSCU() {
@@ -164,6 +156,86 @@ public class GenomeAnalyzer {
 
         bw.close();
         System.out.println("\nResults exported to: " + outCsvPath);
+    }
+
+    /**
+     * Generate a per-file codon report matching the sample CSV format:
+     * Codon,AA_Name,AA_Code,Count,Total_AA_Count,Num_Synonyms,Percentage,RSCU
+     * If isFileA is true, uses counts/RSCU for file A; otherwise for file B.
+     */
+    public void generatePerFileReport(String outCsvPath, boolean isFileA) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(outCsvPath));
+        // New header: remove Num_Synonyms; Percentage will include a % sign
+        bw.write("Codon,AA_Name,AA_Code,Count,Total_AA_Count,Percentage,RSCU\n");
+
+        for (CodonEntry ce : codonList) {
+            String codon = ce.getCodon();
+            String aaName = ce.getAaName();
+            char aaCode = ce.getAaCode();
+            int count = isFileA ? ce.getCountA() : ce.getCountB();
+
+            // compute total count for this amino acid
+            int totalAA = 0;
+            for (CodonEntry other : codonList) {
+                if (other.getAaName().equals(aaName)) {
+                    totalAA += isFileA ? other.getCountA() : other.getCountB();
+                }
+            }
+
+            double percentage = totalAA > 0 ? ((double) count / (double) totalAA) * 100.0 : 0.0;
+            double rscu = isFileA ? ce.getRscuA() : ce.getRscuB();
+
+            // Count and Total_AA_Count as integers; Percentage with 2 decimals and a % sign; RSCU with 2 decimals
+            bw.write(String.format("%s,%s,%c,%d,%d,%.2f%%,%.2f\n",
+                    codon, aaName, aaCode, count, totalAA, percentage, rscu));
+        }
+
+        bw.close();
+        System.out.println("Per-file report exported to: " + outCsvPath);
+    }
+
+    /**
+     * Generate the final analysis report combining replicase (A) and spike (B) metrics.
+     * Header: Codon,AA_Name,AA_Code,Pct_Replicase,Pct_Spike,Pct_Diff,RSCU_Replicase,RSCU_Spike,RSCU_Diff
+     * Pct_Diff and RSCU_Diff are computed as (Spike - Replicase).
+     */
+    public void generateFinalAnalysisReport(String outCsvPath) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(outCsvPath));
+        bw.write("Codon,AA_Name,AA_Code,Pct_Replicase,Pct_Spike,Pct_Diff,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff\n");
+
+        for (CodonEntry ce : codonList) {
+            String codon = ce.getCodon();
+            String aaName = ce.getAaName();
+            char aaCode = ce.getAaCode();
+
+            // compute totals per amino acid for replicase (A) and spike (B)
+            int totalA = 0;
+            int totalB = 0;
+            for (CodonEntry other : codonList) {
+                if (other.getAaName().equals(aaName)) {
+                    totalA += other.getCountA();
+                    totalB += other.getCountB();
+                }
+            }
+
+            double pctA = totalA > 0 ? ((double) ce.getCountA() / (double) totalA) * 100.0 : 0.0;
+            double pctB = totalB > 0 ? ((double) ce.getCountB() / (double) totalB) * 100.0 : 0.0;
+            double rA = ce.getRscuA();
+            double rB = ce.getRscuB();
+
+            double pctDiff = pctB - pctA; // Spike - Replicase
+            double rscuDiff = rB - rA;
+            double rscuPctDiff = 0.0;
+            if (rA != 0.0) {
+                rscuPctDiff = ((rB - rA) / rA) * 100.0; // percent change relative to replicase
+            }
+
+            bw.write(String.format("%s,%s,%c,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n",
+                    codon, aaName, aaCode, pctA, pctB, pctDiff, rA, rB, rscuDiff, rscuPctDiff));
+        }
+
+        bw.close();
+        System.out.println("Final analysis exported to: " + outCsvPath);
     }
 }
 

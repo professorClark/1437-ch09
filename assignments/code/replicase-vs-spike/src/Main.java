@@ -4,23 +4,22 @@ public class Main {
     public static void main(String[] args) {
         try {
 
-            String aaCsv = "amino-acids.csv";
+            String aaCsv = "codons.csv";
             String fileA = "replicase.fasta";
             String fileB = "spike.fasta";
-            if (args.length >= 2) {
-                fileA = args[0];
-                fileB = args[1];
-            }
-            if (args.length >= 3) aaCsv = args[2];
-
             GenomeAnalyzer ga = new GenomeAnalyzer();
             ga.loadAminoAcids(aaCsv);
             ga.parseFastaToCounts(fileA, true);
             ga.parseFastaToCounts(fileB, false);
             ga.computeRSCU();
-            ga.sortCodons();
-            String out = "Analysis_Results.csv";
-            ga.generateReport(out);
+            String out = "covid-analysis-results.csv";
+            //ga.generateReport(out); //executive report to screen
+            // Also generate per-file codon reports matching the sample CSV format
+            ga.generatePerFileReport("covid_replicase_codon_data.csv", true);
+            ga.generatePerFileReport("covid_spike_codon_data.csv", false);
+            // Generate final combined analysis report
+            ga.generateFinalAnalysisReport("h1n1_analysis_results.csv");
+
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
             e.printStackTrace();

@@ -1,7 +1,7 @@
 public class CodonEntry {
-    private String codon;    // 3-letter codon
-    private String aaName;      // Amino Acid full name
-    private char aaCode;        // 1-letter code
+    private final String codon;    // 3-letter codon
+    private final String aaName;      // Amino Acid full name
+    private final char aaCode;        // 1-letter code
     private int countA;         // frequency in file A (Replicase)
     private int countB;         // frequency in file B (Spike)
     private double rscuA;       // RSCU for file A
@@ -17,12 +17,13 @@ public class CodonEntry {
         this.rscuB = 0.0;
     }
 
-    public void setCountA(int countA) {
-        this.countA = countA;
+    // Increment helpers to update counts atomically from callers
+    public void incrementCountA() {
+        this.countA++;
     }
 
-    public void setCountB(int countB) {
-        this.countB = countB;
+    public void incrementCountB() {
+        this.countB++;
     }
 
     public void setRscuA(double rscuA) {
@@ -66,4 +67,3 @@ public class CodonEntry {
         return rscuB;
     }
 }
-
