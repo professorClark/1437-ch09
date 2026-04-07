@@ -1,0 +1,5 @@
+Highly unfavored: RSCU < 0.60
+Unfavored: 0.60 ≤ RSCU < 0.90
+Stable / ~neutral: 0.90 ≤ RSCU ≤ 1.10
+Favored: 1.10 < RSCU ≤ 1.60
+Highly favored: RSCU > 1.60
