@@ -18,7 +18,7 @@ public class Main {
             ga.generatePerFileReport("covid_replicase_codon_data.csv", true);
             ga.generatePerFileReport("covid_spike_codon_data.csv", false);
             // Generate final combined analysis report
-            ga.generateFinalAnalysisReport("h1n1_analysis_results.csv");
+            ga.generateFinalAnalysisReport("covid_analysis_results.csv");
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
