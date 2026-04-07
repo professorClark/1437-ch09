@@ -186,7 +186,7 @@ public class GenomeAnalyzer
      */
     public void generateFinalAnalysisReport(String outCsvPath) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(outCsvPath));
-        bw.write("Codon,AA_Name,AA_Code,Pct_Replicase,Pct_Spike,Pct_Diff,RSCU_Replicase,RSCU_Spike,RSCU_Diff\n");
+        bw.write("Codon,AA_Name,AA_Code,Pct_Replicase,Pct_Spike,Pct_Diff,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff\n");
 
         for (CodonEntry ce : codonList) {
             String codon = ce.getCodon();
@@ -210,9 +210,13 @@ public class GenomeAnalyzer
 
             double pctDiff = pctB - pctA; // Spike - Replicase
             double rscuDiff = rB - rA;
+            double rscuPctDiff = 0.0;
+            if (rA != 0.0) {
+                rscuPctDiff = ((rB - rA) / rA) * 100.0; // percent change relative to replicase
+            }
 
-            bw.write(String.format("%s,%s,%c,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n",
-                    codon, aaName, aaCode, pctA, pctB, pctDiff, rA, rB, rscuDiff));
+            bw.write(String.format("%s,%s,%c,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n",
+                    codon, aaName, aaCode, pctA, pctB, pctDiff, rA, rB, rscuDiff, rscuPctDiff));
         }
 
         bw.close();
