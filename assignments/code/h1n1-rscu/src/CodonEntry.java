@@ -2,8 +2,8 @@ public class CodonEntry {
     private final String codon;    // 3-letter codon
     private final String aaName;      // Amino Acid full name
     private final char aaCode;        // 1-letter code
-    private int countA;         // frequency in file A (PB1 - Replicase)
-    private int countB;         // frequency in file B (HA - surface binding)
+    private int countA;         // frequency in file A (Replicase)
+    private int countB;         // frequency in file B (Spike)
     private double rscuA;       // RSCU for file A
     private double rscuB;       // RSCU for file B
 

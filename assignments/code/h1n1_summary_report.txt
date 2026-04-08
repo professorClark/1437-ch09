@@ -1,0 +1,59 @@
+
+  ==========================================================================
+  CODON USAGE BIAS SHIFT REPORT — Replicase vs. Spike Protein
+  ==========================================================================
+
+  ▲  INCREASED FAVORABILITY  (Spike more favored than Replicase)
+  --------------------------------------------------------------------------
+  Codon   Amino Acid              AA    Replicase Category    Spike Category      
+  --------------------------------------------------------------------------
+  GCC     Alanine                 A     Unfavored             Stable              
+  AAT     Asparagine              N     Stable                Favored             
+  GAC     Aspartic_Acid           D     Unfavored             Favored             
+  TGT     Cysteine                C     Unfavored             Favored             
+  CAG     Glutamine               Q     Unfavored             Favored             
+  ATT     Isoleucine              I     Stable                Favored             
+  TTG     Leucine                 L     Unfavored             Favored             
+  CTG     Leucine                 L     Unfavored             Favored             
+  AAA     Lysine                  K     Stable                Favored             
+  TTT     Phenylalanine           F     Unfavored             Favored             
+  CCC     Proline                 P     Highly Unfavored      Unfavored           
+  CCG     Proline                 P     Highly Unfavored      Unfavored           
+  TCC     Serine                  S     Unfavored             Stable              
+  TCA     Serine                  S     Favored               Highly Favored      
+  ACC     Threonine               T     Unfavored             Stable              
+  TAT     Tyrosine                Y     Unfavored             Favored             
+  GTA     Valine                  V     Unfavored             Favored             
+  TAA     STOP                    _     Highly Unfavored      Highly Favored      
+  --------------------------------------------------------------------------
+  Total codons shifted UP: 18
+
+  ▼  DECREASED FAVORABILITY  (Spike less favored than Replicase)
+  --------------------------------------------------------------------------
+  Codon   Amino Acid              AA    Replicase Category    Spike Category      
+  --------------------------------------------------------------------------
+  GCT     Alanine                 A     Stable                Unfavored           
+  CGA     Arginine                R     Unfavored             Highly Unfavored    
+  CGG     Arginine                R     Unfavored             Highly Unfavored    
+  AAC     Asparagine              N     Stable                Unfavored           
+  GAT     Aspartic_Acid           D     Favored               Unfavored           
+  TGC     Cysteine                C     Favored               Unfavored           
+  CAA     Glutamine               Q     Favored               Unfavored           
+  ATA     Isoleucine              I     Favored               Stable              
+  CTT     Leucine                 L     Unfavored             Highly Unfavored    
+  CTC     Leucine                 L     Unfavored             Highly Unfavored    
+  AAG     Lysine                  K     Stable                Unfavored           
+  TTC     Phenylalanine           F     Favored               Unfavored           
+  CCT     Proline                 P     Favored               Unfavored           
+  TCG     Serine                  S     Unfavored             Highly Unfavored    
+  AGC     Serine                  S     Favored               Unfavored           
+  ACT     Threonine               T     Unfavored             Highly Unfavored    
+  TAC     Tyrosine                Y     Favored               Unfavored           
+  GTC     Valine                  V     Stable                Unfavored           
+  GTG     Valine                  V     Favored               Unfavored           
+  TAG     STOP                    _     Highly Favored        Highly Unfavored    
+  --------------------------------------------------------------------------
+  Total codons shifted DOWN: 20
+
+  ==========================================================================
+
