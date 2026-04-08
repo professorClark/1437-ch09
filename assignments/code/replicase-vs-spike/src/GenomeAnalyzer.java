@@ -199,43 +199,177 @@ public class GenomeAnalyzer {
      * Header: Codon,AA_Name,AA_Code,Pct_Replicase,Pct_Spike,Pct_Diff,RSCU_Replicase,RSCU_Spike,RSCU_Diff
      * Pct_Diff and RSCU_Diff are computed as (Spike - Replicase).
      */
+//    public void generateFinalAnalysisReport(String outCsvPath) throws IOException {
+//        BufferedWriter bw = new BufferedWriter(new FileWriter(outCsvPath));
+//        bw.write("Codon,AA_Name,AA_Code,Pct_Replicase,Pct_Spike,Pct_Diff,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff\n");
+//
+//        for (CodonEntry ce : codonList) {
+//            String codon = ce.getCodon();
+//            String aaName = ce.getAaName();
+//            char aaCode = ce.getAaCode();
+//
+//            // compute totals per amino acid for replicase (A) and spike (B)
+//            int totalA = 0;
+//            int totalB = 0;
+//            for (CodonEntry other : codonList) {
+//                if (other.getAaName().equals(aaName)) {
+//                    totalA += other.getCountA();
+//                    totalB += other.getCountB();
+//                }
+//            }
+//
+//            double pctA = totalA > 0 ? ((double) ce.getCountA() / (double) totalA) * 100.0 : 0.0;
+//            double pctB = totalB > 0 ? ((double) ce.getCountB() / (double) totalB) * 100.0 : 0.0;
+//            double rA = ce.getRscuA();
+//            double rB = ce.getRscuB();
+//
+//            double pctDiff = pctB - pctA; // Spike - Replicase
+//            double rscuDiff = rB - rA;
+//            double rscuPctDiff = 0.0;
+//            if (rA != 0.0) {
+//                rscuPctDiff = ((rB - rA) / rA) * 100.0; // percent change relative to replicase
+//            }
+//
+//            bw.write(String.format("%s,%s,%c,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n",
+//                    codon, aaName, aaCode, pctA, pctB, pctDiff, rA, rB, rscuDiff, rscuPctDiff));
+//        }
+//
+//        bw.close();
+//        System.out.println("Final analysis exported to: " + outCsvPath);
+//    }
     public void generateFinalAnalysisReport(String outCsvPath) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(outCsvPath));
-        bw.write("Codon,AA_Name,AA_Code,Pct_Replicase,Pct_Spike,Pct_Diff,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff\n");
+        bw.write("Codon,AA_Name,AA_Code,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff,Replicase_Category,Spike_Category,Category_Change\n");
 
         for (CodonEntry ce : codonList) {
             String codon = ce.getCodon();
             String aaName = ce.getAaName();
             char aaCode = ce.getAaCode();
 
-            // compute totals per amino acid for replicase (A) and spike (B)
-            int totalA = 0;
-            int totalB = 0;
-            for (CodonEntry other : codonList) {
-                if (other.getAaName().equals(aaName)) {
-                    totalA += other.getCountA();
-                    totalB += other.getCountB();
-                }
-            }
-
-            double pctA = totalA > 0 ? ((double) ce.getCountA() / (double) totalA) * 100.0 : 0.0;
-            double pctB = totalB > 0 ? ((double) ce.getCountB() / (double) totalB) * 100.0 : 0.0;
             double rA = ce.getRscuA();
             double rB = ce.getRscuB();
-
-            double pctDiff = pctB - pctA; // Spike - Replicase
             double rscuDiff = rB - rA;
             double rscuPctDiff = 0.0;
             if (rA != 0.0) {
                 rscuPctDiff = ((rB - rA) / rA) * 100.0; // percent change relative to replicase
             }
+            // Categorize codon usage based on RSCU values
+            String catA = categorizeRSCU(rA);
+            String catB = categorizeRSCU(rB);
+            String catChange;
+            int rankDiff = categoryRank(catB) - categoryRank(catA);
+            if (rankDiff > 0)       catChange = "UP";
+            else if (rankDiff < 0)  catChange = "DOWN";
+            else                    catChange = "";
 
-            bw.write(String.format("%s,%s,%c,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n",
-                    codon, aaName, aaCode, pctA, pctB, pctDiff, rA, rB, rscuDiff, rscuPctDiff));
+            bw.write(String.format("%s,%s,%c,%.2f,%.2f,%.2f,%.2f,%s,%s,%s\n",
+                    codon, aaName, aaCode, rA, rB, rscuDiff, rscuPctDiff,
+                    catA, catB, catChange));
         }
 
         bw.close();
         System.out.println("Final analysis exported to: " + outCsvPath);
     }
+
+    /**
+     * Categorize a codon's usage based on its RSCU value.
+     * Highly unfavored: RSCU < 0.60
+     * Unfavored:        0.60 <= RSCU < 0.90
+     * Stable/~neutral:  0.90 <= RSCU <= 1.10
+     * Favored:          1.10 < RSCU <= 1.60
+     * Highly favored:   RSCU > 1.60
+     */
+    private String categorizeRSCU(double rscu) {
+        if (rscu < 0.60)       return "Highly Unfavored";
+        else if (rscu < 0.90)  return "Unfavored";
+        else if (rscu <= 1.10) return "Stable";
+        else if (rscu <= 1.60) return "Favored";
+        else                   return "Highly Favored";
+    }
+
+    /** Returns a numeric rank for a category label (higher = more favored). */
+    private int categoryRank(String category) {
+        switch (category) {
+            case "Highly Unfavored": return 1;
+            case "Unfavored":        return 2;
+            case "Stable":           return 3;
+            case "Favored":          return 4;
+            case "Highly Favored":   return 5;
+            default:                 return 0;
+        }
+    }
+
+    /**
+     * Writes an executive-ready formatted report of all codons whose usage
+     * favorability shifted UP or DOWN between Replicase (A) and Spike (B).
+     */
+    public void printCategoryChangeReport(String outTxtPath) throws IOException {
+        List<CodonEntry> upList   = new ArrayList<>();
+        List<CodonEntry> downList = new ArrayList<>();
+
+        for (CodonEntry ce : codonList) {
+            int rankDiff = categoryRank(categorizeRSCU(ce.getRscuB()))
+                         - categoryRank(categorizeRSCU(ce.getRscuA()));
+            if      (rankDiff > 0) upList.add(ce);
+            else if (rankDiff < 0) downList.add(ce);
+        }
+
+        String divider  = "  " + "=".repeat(74);
+        String rowLine  = "  " + "-".repeat(74);
+        String rowFmt   = "  %-6s  %-22s  %-4s  %-20s  %-20s%n";
+
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(outTxtPath)))) {
+            out.println();
+            out.println(divider);
+            out.println("  CODON USAGE BIAS SHIFT REPORT — Replicase vs. Spike Protein");
+            out.println(divider);
+            out.println();
+
+            // ── UP section ──────────────────────────────────────────────────────
+            out.println("  ▲  INCREASED FAVORABILITY  (Spike more favored than Replicase)");
+            out.println(rowLine);
+            out.printf(rowFmt, "Codon", "Amino Acid", "AA", "Replicase Category", "Spike Category");
+            out.println(rowLine);
+            if (upList.isEmpty()) {
+                out.println("  (none)");
+            } else {
+                for (CodonEntry ce : upList) {
+                    out.printf(rowFmt,
+                            ce.getCodon(),
+                            ce.getAaName(),
+                            String.valueOf(ce.getAaCode()),
+                            categorizeRSCU(ce.getRscuA()),
+                            categorizeRSCU(ce.getRscuB()));
+                }
+            }
+            out.println(rowLine);
+            out.printf("  Total codons shifted UP: %d%n", upList.size());
+            out.println();
+
+            // ── DOWN section ────────────────────────────────────────────────────
+            out.println("  ▼  DECREASED FAVORABILITY  (Spike less favored than Replicase)");
+            out.println(rowLine);
+            out.printf(rowFmt, "Codon", "Amino Acid", "AA", "Replicase Category", "Spike Category");
+            out.println(rowLine);
+            if (downList.isEmpty()) {
+                out.println("  (none)");
+            } else {
+                for (CodonEntry ce : downList) {
+                    out.printf(rowFmt,
+                            ce.getCodon(),
+                            ce.getAaName(),
+                            String.valueOf(ce.getAaCode()),
+                            categorizeRSCU(ce.getRscuA()),
+                            categorizeRSCU(ce.getRscuB()));
+                }
+            }
+            out.println(rowLine);
+            out.printf("  Total codons shifted DOWN: %d%n", downList.size());
+            out.println();
+            out.println(divider);
+            out.println();
+        }
+    }
+
 }
 
