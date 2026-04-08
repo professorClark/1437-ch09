@@ -1,0 +1,43 @@
+
+  ==========================================================================
+  CODON USAGE BIAS SHIFT REPORT — Replicase vs. Spike Protein
+  ==========================================================================
+
+  ▲  INCREASED FAVORABILITY  (Spike more favored than Replicase)
+  --------------------------------------------------------------------------
+  Codon   Amino Acid              AA    Replicase Category    Spike Category      
+  --------------------------------------------------------------------------
+  GCA     Alanine                 A     Stable                Favored             
+  CGT     Arginine                R     Favored               Highly Favored      
+  AGG     Arginine                R     Stable                Favored             
+  TGC     Cysteine                C     Highly Unfavored      Unfavored           
+  ATT     Isoleucine              I     Favored               Highly Favored      
+  CTC     Leucine                 L     Highly Unfavored      Unfavored           
+  CCA     Proline                 P     Favored               Highly Favored      
+  TCC     Serine                  S     Highly Unfavored      Unfavored           
+  GTC     Valine                  V     Highly Unfavored      Unfavored           
+  TGA     STOP                    _     Highly Unfavored      Favored             
+  --------------------------------------------------------------------------
+  Total codons shifted UP: 10
+
+  ▼  DECREASED FAVORABILITY  (Spike less favored than Replicase)
+  --------------------------------------------------------------------------
+  Codon   Amino Acid              AA    Replicase Category    Spike Category      
+  --------------------------------------------------------------------------
+  GCC     Alanine                 A     Unfavored             Highly Unfavored    
+  TGT     Cysteine                C     Highly Favored        Favored             
+  CAG     Glutamine               Q     Unfavored             Highly Unfavored    
+  CAC     Histidine               H     Unfavored             Highly Unfavored    
+  ATA     Isoleucine              I     Stable                Unfavored           
+  TTA     Leucine                 L     Highly Favored        Favored             
+  TTG     Leucine                 L     Favored               Stable              
+  CTA     Leucine                 L     Unfavored             Highly Unfavored    
+  AGT     Serine                  S     Favored               Stable              
+  TAC     Tyrosine                Y     Unfavored             Highly Unfavored    
+  GTG     Valine                  V     Unfavored             Highly Unfavored    
+  TAA     STOP                    _     Highly Favored        Favored             
+  --------------------------------------------------------------------------
+  Total codons shifted DOWN: 12
+
+  ==========================================================================
+
